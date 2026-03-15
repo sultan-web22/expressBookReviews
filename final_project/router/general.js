@@ -3,7 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
+const axios =require('axios')
 
 public_users.post("/register", (req,res) => {
   const username = req.body.username
@@ -17,10 +17,12 @@ if(username&&password){
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  res.send(JSON.stringfy(books,null,4))
-
-});
+function getbooks(){
+    axios.get('https://ahmeddsultan-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/')
+    .then(response=>{console.log('books:',response.data);})
+    .catch(error=>{console.error('error fetching books:',error);});
+}
+getbooks();
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
@@ -32,7 +34,22 @@ public_users.get('/isbn/:isbn',function (req, res) {
   }
   return res.status(300).json({message: "Yet to be implemented"});
  });
-  
+ 
+ async function getibBooks() {
+    try {const response= await axios.get('https://ahmeddsultan-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/');
+console.log(response.data);} catch(error) {console.error('error fetching books',error);} 
+ }
+getibBooks();
+function getbookbyauthor(){
+    axios.get('https://ahmeddsultan-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/')
+    .then(response=>{console.log('author:',resonse.data);})
+    .catch(error=>{console.log('erorr finding the author',error);});
+} 
+getbookbyauthor();
+async function gettitlebook(){
+    try{const response =await axios.get('https://ahmeddsultan-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/');
+console.log(response.data);}catch(erorr){console.error('error fetching title',error);}
+}
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   const author =req.params.author;
