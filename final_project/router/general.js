@@ -15,7 +15,14 @@ if(username&&password){
     }else{return res.status(404).json({message: "User already exists!"});}
 } return res.status(404).json({message: "missing username or password please fill them"});
 });
-
+public_users.get('/books/:books',function(req,res){
+  const name =req.params.book;
+  cost book =book[name]
+  if(book){
+    res.status(200).json(book)
+  }
+   return res.status(300).json({message: "Yet to be implemented"});
+})
 // Get the book list available in the shop
 function getbooks(){
     axios.get('https://ahmeddsultan-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/')
@@ -26,7 +33,7 @@ getbooks();
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn =res.params.isbn
+  const isbn =req.params.isbn;
   const book =books[isbn];
   if(books){
     return res.status(200).json(book);
